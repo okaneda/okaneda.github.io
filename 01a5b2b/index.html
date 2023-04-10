@@ -33,20 +33,6 @@ body {
   background-size: cover;
   position: relative;
 }
-    
-.hero-image, ._0511 {
-  background-image: url("0511.jpg");
-}
-.hero-image, ._0472 {
-  background-image: url("0472.jpg");
-}
-.hero-image, ._0509 {
-  background-image: url("0509.jpg");
-}
-.hero-image, ._0510 {
-  background-image: url("0510.jpg");    
-}
-    
 
 .hero-text {
   text-align: center;
@@ -99,19 +85,22 @@ main {
 
 <main>
 <div class="w3-content w3-display-container">
-  <div class="mySlides hero-image _0511">
-  </div>
-  <div class="mySlides hero-image _0472">
-  </div>
-  <div class="mySlides hero-image _0509">
-  </div>
-  <div class="mySlides hero-image _0510">
-  </div>
+  <div class="mySlides hero-image _0511"></div>
+  <div class="mySlides hero-image _0472"></div>
+  <div class="mySlides hero-image _0509"></div>
+  <div class="mySlides hero-image _0510"></div>
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
   </main>
 <script>
+var backgrounds = new Array(
+    'url(0511.jpg)'
+  , 'url(0472.jpg)'
+  , 'url(0509.jpg)'
+  , 'url(0510.jpg)'
+);
+  
 var slideIndex = 1;
 showDivs(slideIndex);
 
@@ -127,7 +116,8 @@ function showDivs(n) {
   for (i = 0; i < x.length; i++) {
     x[i].style.display = "none";  
   }
-  x[slideIndex-1].style.display = "block";  
+  x[slideIndex-1].style.display = "block";
+  x[slideIndex-1].style["'background-image"] = backgrounds[slideIndex-1]);
 }
 </script>
   </body>
