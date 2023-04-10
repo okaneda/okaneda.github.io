@@ -1,10 +1,10 @@
 <html>
 <head>
   <style>
-  /* video background */
+    /* video background */
 #background-video {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   object-fit: cover;
   position: fixed;
   left: 0;
@@ -15,9 +15,15 @@
 }
 
 /* page content */
+
+body {
+  font-family: Trebuchet MS;
+  margin: 0;
+  padding: 0;
+}
+
 h1, h2 {
   color: white;
-  font-family: Trebuchet MS;
   font-weight: bold;
   text-align: center;
 }
@@ -35,13 +41,29 @@ h2 { font-size: 3rem; }
       background: url("https://assets.codepen.io/6093409/river.jpg") no-repeat;
       background-size: cover;
     }
-}  
+}
+
+main {
+  background-color: lightblue;
+  font-size: 2rem;
+  margin-top: 50vh;
+  padding: 10px;
+  position: relative;
+}
   </style>
   </head>
 <body>
 <video id="background-video" autoplay loop muted poster="https://assets.codepen.io/6093409/river.jpg">
-<source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4">
+  <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4">
 </video>
+
 <h1>THIS IS A RIVER.</h1>
 <h2>How majestic.</h2>
+
+<main>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+  <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+  <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+</main>
 </body>
