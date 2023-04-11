@@ -158,12 +158,32 @@ img.src = currentFrame(1);
 img.onload=function(){
   context.canvas.width=img.width;
   context.canvas.height=img.height; 
-  context.drawImage(img, 0, 0);  
+  //context.drawImage(img, 0, 0);  
 }
 
 const updateImage = index => {
   img.src = currentFrame(index);
-  context.drawImage(img, 0, 0);
+  //context.drawImage(img, 0, 0);
+}
+
+function elementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return (
+    top < (window.pageYOffset + window.innerHeight) &&
+    left < (window.pageXOffset + window.innerWidth) &&
+    (top + height) > window.pageYOffset &&
+    (left + width) > window.pageXOffset
+  );
 }
 
 window.addEventListener('scroll', () => {  
@@ -175,10 +195,12 @@ window.addEventListener('scroll', () => {
     Math.ceil(scrollFraction * frameCount)
   );
   
-  requestAnimationFrame(() => updateImage(frameIndex + 1))
+  console.log(`is canvas viewable? ${elementInViewport2(canvas)}`);
+  //requestAnimationFrame(() => updateImage(frameIndex + 1))
 });
 
-preloadImages();
+//preloadImages();
+
 
 </script>
 </body>
