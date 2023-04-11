@@ -35,12 +35,15 @@ body {
 }
 
 canvas {
-  position: fixed;
-  left: 50%;
+  position: relative;
+  width: 220;
+  height: 110;
+  border: 1px dashed orangered; 
+  /*left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   max-width: 100vw;
-  max-height: 100vh;
+  max-height: 100vh;*/
 }
 
 /*
@@ -185,6 +188,9 @@ function elementInViewport2(el) {
     (left + width) > window.pageXOffset
   );
 }
+
+context.fillStyle = "lightblue";
+context.fillRect(5, 5, 210, 100);
 
 window.addEventListener('scroll', () => {  
   const scrollTop = html.scrollTop;
