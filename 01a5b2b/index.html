@@ -152,11 +152,13 @@ const preloadImages = () => {
 };
 
 const img = new Image()
+img.width = window.innerWidth;  
 img.src = currentFrame(1);
-canvas.width=1158;
-canvas.height=770;
+
 img.onload=function(){
-  context.drawImage(img, 0, 0);
+  context.canvas.width=img.width;
+  context.canvas.height=img.height; 
+  context.drawImage(img, 0, 0);  
 }
 
 const updateImage = index => {
