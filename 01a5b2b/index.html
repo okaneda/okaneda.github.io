@@ -139,8 +139,8 @@ var backgrounds = new Array(
 
 const html = document.documentElement;
 const canvas = document.getElementById("hero-lightpass");
-canvas.style.height = html.innerHeight;
-canvas.style.top = html.innerHeight + 1;
+//canvas.style.height = html.innerHeight;
+//canvas.style.top = html.innerHeight + 1;
 
 
 const context = canvas.getContext("2d");
@@ -162,8 +162,8 @@ img.width = window.innerWidth;
 img.src = currentFrame(1);
 
 img.onload=function(){
-  context.canvas.width=img.width;
-  context.canvas.height=img.height; 
+  //context.canvas.width=img.width;
+  //context.canvas.height=img.height; 
   //context.drawImage(img, 0, 0);  
 }
 
@@ -192,8 +192,8 @@ function elementInViewport2(el) {
   );
 }
 
-context.fillStyle = "lightblue";
-context.fillRect(5, 5, 210, 100);
+context.fillStyle = "green";
+context.fillRect(20, 10, 150, 100);
 
 window.addEventListener('scroll', () => {  
   const scrollTop = html.scrollTop;
