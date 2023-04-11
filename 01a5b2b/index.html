@@ -66,7 +66,7 @@ canvas {
 @media (max-width: 750px) {
     #background-video { display: none; }
     body {
-      background: url("https://assets.codepen.io/6093409/river.jpg") no-repeat;
+      background: url("0511.jpg") no-repeat;
       background-size: cover;
     }
 }
@@ -82,7 +82,7 @@ canvas {
   </head>
 <body>
  
-<video id="background-video" autoplay loop muted poster="https://assets.codepen.io/6093409/river.jpg">
+<video id="background-video" autoplay loop muted poster="0511.jpg">
   <source src="front-entry-web.mp4" type="video/mp4">
 </video>
 
@@ -205,6 +205,9 @@ window.addEventListener('scroll', () => {
   );
   
   console.log(`is canvas viewable? ${elementInViewport2(canvas)}`);
+  if (elementInViewport2(canvas)) {
+     if 
+  }
   //requestAnimationFrame(() => updateImage(frameIndex + 1))
 });
 
