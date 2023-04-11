@@ -37,6 +37,7 @@ body {
 canvas {
   width: 100%;
   border: 1px dashed orangered; 
+  position: absolute;
   /*left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -138,9 +139,8 @@ var backgrounds = new Array(
 
 const html = document.documentElement;
 const canvas = document.getElementById("hero-lightpass");
-canvas.style.height = window.innerHeight;
-canvas.style.top = window.innerHeight + 1;
-canvas.style.position = "relative";
+canvas.style.height = html.innerHeight;
+canvas.style.top = html.innerHeight + 1;
 
 
 const context = canvas.getContext("2d");
