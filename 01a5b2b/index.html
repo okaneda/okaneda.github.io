@@ -301,6 +301,8 @@ window.addEventListener('scroll', () => {
   const frameIndex = Math.min(
     frameCount - 1,
     Math.ceil(scrollFraction * frameCount));
+   
+   img.src = `${currentFrame(1)}`;
 
 //var rect = adsTxt.getBoundingClientRect();
 //console.log(rect.top, rect.right, rect.bottom, rect.left);
@@ -328,7 +330,7 @@ vid.play().then( () => {
   alert_elem.remove();
   resetVideo();
 
-  img.src = `${currentFrame(1)}`;
+  //img.src = `${currentFrame(1)}`;
 
 }).catch( () => {
 
