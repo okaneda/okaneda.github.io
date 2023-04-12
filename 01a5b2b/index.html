@@ -112,13 +112,36 @@ font-size: 50px;
 z-index: 1001;
 margin: 0 50px
 }
+
+.alert {
+  font: 14px Arial, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px 12px lightgray;
+}
+p { margin: 12px; }
+.alert .buttons {
+  float: right
+}
+
   </style>
   </head>
 <body>
  
-<video id="background-video" autoplay loop muted poster="0511.jpg">
+<video id="background-video" onloadstart="this.volume=0.0" autoplay loop poster="0511.jpg">
   <source src="front-entry-web.mp4" type="video/mp4">
 </video>
+
+<div class="alert">
+  <p>This webpage would like to play sounds</p>
+  <p class="buttons">
+    <button value="0">Block</button>
+    <button value="1">Allow</button>
+  </p>
+</div>
 
 <div class="container" id="adsTxt"><h1>Canyon Crest Drive</h1>
 <h2>City of San Ramon</h2></div>
@@ -195,7 +218,10 @@ console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffse
 
 var rvideo = document.getElementById("background-video");
 rvideo.volume = (1-posDraw);
+if (rvideo.muted) {
 rvideo.muted = false;
+rvideo.play();
+}
 vbright = 100*(1-posDraw)+20;
 
 rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
@@ -274,6 +300,50 @@ function posRatioElementInViewport2(el) {
 //cxt.fillRect(20, 10, 150, 100);
 //var renderImg = false;
 
+//var rvideo = document.getElementById("background-video");
+//rvideo.volume = 0.0;
+
+const vid = document.createElement("video");
+vid.setAttribute("src", "front-entry-web.mp4");
+
+//const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
+vid.muted = true;
+
+const alert_elem = document.querySelector( '.alert' );
+
+vid.play().then( () => {
+  // already allowed
+  alert_elem.remove();
+  resetVideo();
+} )
+.catch( () => {
+  // need user interaction
+  alert_elem.addEventListener( 'click', ({ target }) => {
+    if( target.matches('button') ) {
+      const allowed = target.value === "1";
+      if( allowed ) {
+        vid.play()
+          .then( resetVideo );
+      }
+      alert_elem.remove();
+    }
+  } );
+} );
+
+/*document.getElementById( 'btn' ).addEventListener( 'click', (e) => {
+  if( audio.muted ) {
+    console.log( 'silent notification' );
+  }
+  else {
+    audio.play();
+  }
+} );*/
+
+function resetVideo() {
+  vid.pause();
+  vid.currentTime = 0;
+  vid.muted = false;
+}
 
 window.addEventListener('scroll', () => {  
   const scrollTop = html.scrollTop;
@@ -286,6 +356,7 @@ window.addEventListener('scroll', () => {
 
   img.src = `${currentFrame(1)}`;
   
+
 //var rect = adsTxt.getBoundingClientRect();
 //console.log(rect.top, rect.right, rect.bottom, rect.left);
   
