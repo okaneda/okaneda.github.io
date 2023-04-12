@@ -121,7 +121,6 @@ margin: 0 50px
   background: white;
   border: 1px solid lightgray;
   box-shadow: 3px 3px 12px lightgray;
-  z-index: 2001;
 }
 p { margin: 12px; }
 .alert .buttons {
@@ -316,8 +315,23 @@ vid.play().then( () => {
   // already allowed
   alert_elem.remove();
   resetVideo();
+
+
+window.addEventListener('scroll', () => {  
+  const scrollTop = html.scrollTop;
+  const maxScrollTop = html.scrollHeight - window.innerHeight;
+  const scrollFraction = scrollTop / maxScrollTop;
+  const frameIndex = Math.min(
+    frameCount - 1,
+    Math.ceil(scrollFraction * frameCount)
+  );
+
+  img.src = `${currentFrame(1)}`;
+
 } )
 .catch( () => {
+
+  
   // need user interaction
   alert_elem.addEventListener( 'click', ({ target }) => {
     if( target.matches('button') ) {
@@ -345,17 +359,6 @@ function resetVideo() {
   vid.currentTime = 0;
   vid.muted = false;
 }
-
-window.addEventListener('scroll', () => {  
-  const scrollTop = html.scrollTop;
-  const maxScrollTop = html.scrollHeight - window.innerHeight;
-  const scrollFraction = scrollTop / maxScrollTop;
-  const frameIndex = Math.min(
-    frameCount - 1,
-    Math.ceil(scrollFraction * frameCount)
-  );
-
-  img.src = `${currentFrame(1)}`;
   
 
 //var rect = adsTxt.getBoundingClientRect();
