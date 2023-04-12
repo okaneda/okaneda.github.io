@@ -144,7 +144,6 @@ const canvas = document.getElementById("hero-lightpass");
 //canvas.style.height = html.innerHeight;
 //canvas.style.top = html.innerHeight + 1;
 
-
 const cxt = canvas.getContext("2d");
 
 const frameCount = 4;
@@ -168,18 +167,42 @@ img.onload=function(){
   //context.canvas.height=img.height;
   canvas.width = this.naturalWidth;
   canvas.height = this.naturalHeight;
-   var ratio = canvas.width / img.width    ;
+
+   //var ratio = canvas.width / img.width    ;
 //var vRatio = canvas.height / img.height  ;
 //var ratio  = Math.min ( hRatio, vRatio );
-cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+//cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
 
-  console.log(`image width: ${img.width*ratio} image height: ${img.height*ratio}`)
+var adsTxt = document.getElementById("adsTxt");
+
+var rect = adsTxt.getBoundingClientRect();
+
+//console.log(rect.top, rect.right, rect.bottom, rect.left);
+//var ratio = img.height/rect.bottom;
+cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+
+
+var posDraw = rect.bottom/window.innerHeight;
+
+if (posDraw<0) {
+  posDraw = 0;
+}
+
+console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+
+cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+
+//cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+//cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+
+  //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
   //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
 }
 
-const updateImage = index => {
+const updateImage = index_y => {
   img.src = currentFrame(index);
-  cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);
+  cxt.drawImage(img, 0, index_y, window.innerWidth,img.height*window.innerWidth/img.width);
 }
 
 function elementInViewport2(el) {
@@ -202,11 +225,48 @@ function elementInViewport2(el) {
   );
 }
 
+function elementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return (
+    top < (window.pageYOffset + window.innerHeight) &&
+    left < (window.pageXOffset + window.innerWidth) &&
+    (top + height) > window.pageYOffset &&
+    (left + width) > window.pageXOffset
+  );
+}
+
+
+function posRatioElementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return top/(window.pageYOffset + window.innerHeight);
+}
+
+
+
 //cxt.fillStyle = "green";
 //cxt.fillRect(20, 10, 150, 100);
-var renderImg = false;
+//var renderImg = false;
 
-var adsTxt = document.getElementById("adsTxt");
 
 window.addEventListener('scroll', () => {  
   const scrollTop = html.scrollTop;
@@ -216,28 +276,16 @@ window.addEventListener('scroll', () => {
     frameCount - 1,
     Math.ceil(scrollFraction * frameCount)
   );
-  
-  
-  if (elementInViewport2(adsTxt)) {
-     console.log(`ads text is viewable`);
-if (renderImg) {
-renderImg=false;
-cxt.clearRect(0, 0, canvas.width, canvas.height);
-}
-  } else {
-console.log(`ads text is not viewable`);
-if (!renderImg) {
-    
-renderImg=true;
-img.src = `${currentFrame(1)}`;
-}
 
-}
+  img.src = `${currentFrame(1)}`;
+  
+//var rect = adsTxt.getBoundingClientRect();
+//console.log(rect.top, rect.right, rect.bottom, rect.left);
+  
   //requestAnimationFrame(() => updateImage(frameIndex + 1))
 });
 
 //preloadImages();
-
 
 </script>
 </body>
