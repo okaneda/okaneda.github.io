@@ -19,7 +19,7 @@
   top: 0;
   bottom: 0;
   z-index: -1;
-  filter: brightness(40%);
+  filter: brightness(20%);
 }
 
 html {
@@ -191,7 +191,14 @@ if (posDraw<0) {
 
 console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
 
-cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+//cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+
+var rvideo = document.getElementById("background-video");
+rvideo.volume = (1-posDraw);
+rvideo.muted = false;
+vbright = 100*(1-posDraw)+20;
+
+rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
 
 //cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
 //cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
