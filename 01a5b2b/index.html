@@ -294,7 +294,19 @@ function posRatioElementInViewport2(el) {
   return top/(window.pageYOffset + window.innerHeight);
 }
 
+window.addEventListener('scroll', () => {  
+  const scrollTop = html.scrollTop;
+  const maxScrollTop = html.scrollHeight - window.innerHeight;
+  const scrollFraction = scrollTop / maxScrollTop;
+  const frameIndex = Math.min(
+    frameCount - 1,
+    Math.ceil(scrollFraction * frameCount));
 
+//var rect = adsTxt.getBoundingClientRect();
+//console.log(rect.top, rect.right, rect.bottom, rect.left);
+  
+  //requestAnimationFrame(() => updateImage(frameIndex + 1))
+});
 
 //cxt.fillStyle = "green";
 //cxt.fillRect(20, 10, 150, 100);
@@ -348,21 +360,6 @@ function resetVideo() {
   vid.currentTime = 0;
   vid.muted = false;
 }
-
-window.addEventListener('scroll', () => {  
-  const scrollTop = html.scrollTop;
-  const maxScrollTop = html.scrollHeight - window.innerHeight;
-  const scrollFraction = scrollTop / maxScrollTop;
-  const frameIndex = Math.min(
-    frameCount - 1,
-    Math.ceil(scrollFraction * frameCount)
-  );
-
-//var rect = adsTxt.getBoundingClientRect();
-//console.log(rect.top, rect.right, rect.bottom, rect.left);
-  
-  //requestAnimationFrame(() => updateImage(frameIndex + 1))
-});
 
 //preloadImages();
 
