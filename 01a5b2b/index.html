@@ -219,8 +219,9 @@ console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffse
 var rvideo = document.getElementById("background-video");
 rvideo.volume = (1-posDraw);
 if (rvideo.muted) {
-rvideo.muted = false;
-rvideo.play();
+   
+   //rvideo.muted = false;
+   //rvideo.play();
 }
 vbright = 100*(1-posDraw)+20;
 
@@ -318,7 +319,7 @@ window.addEventListener('scroll', () => {
 //rvideo.volume = 0.0;
 
 const vid = document.createElement("video");
-vid.setAttribute("src", "https://portal.okaneda.com/01a5b2b/front-entry-web.mp4");
+vid.setAttribute("src", "front-entry-web.mp4");
 
 //const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
 vid.muted = true;
