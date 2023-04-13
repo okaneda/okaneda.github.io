@@ -229,9 +229,7 @@ button {
    
 var backgrounds = new Array(
     '0511.jpg'
-  , '0472.jpg'
-  , '0509.jpg'
-  , '0510.jpg'
+  , 'arrow_tip.svg'
 );
 
 const html = document.documentElement;
@@ -254,55 +252,55 @@ const preloadImages = () => {
 };
 
 const img = new Image()
-//img.width = window.innerWidth;  
-//img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
+   //img.width = window.innerWidth;  
+   //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
 
-img.onload=function(){
-//context.canvas.width=window.innerWidth;
-//context.canvas.height=img.height;
-canvas.width = this.naturalWidth;
-canvas.height = this.naturalHeight;
+   img.onload=function(){
+   //context.canvas.width=window.innerWidth;
+   //context.canvas.height=img.height;
+   canvas.width = this.naturalWidth;
+   canvas.height = this.naturalHeight;
 
-//var ratio = canvas.width / img.width    ;
-//var vRatio = canvas.height / img.height  ;
-//var ratio  = Math.min ( hRatio, vRatio );
-//cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+   //var ratio = canvas.width / img.width    ;
+   //var vRatio = canvas.height / img.height  ;
+   //var ratio  = Math.min ( hRatio, vRatio );
+   //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
 
-var adsTxt = document.getElementById("adsTxt");
+   var adsTxt = document.getElementById("adsTxt");
 
-var rect = adsTxt.getBoundingClientRect();
+   var rect = adsTxt.getBoundingClientRect();
 
-//console.log(rect.top, rect.right, rect.bottom, rect.left);
-//var ratio = img.height/rect.bottom;
-cxt.clearRect(0, 0, canvas.width, canvas.height);
+   //console.log(rect.top, rect.right, rect.bottom, rect.left);
+   //var ratio = img.height/rect.bottom;
+   cxt.clearRect(0, 0, canvas.width, canvas.height);
 
-var posDraw = rect.bottom/window.innerHeight;
+   var posDraw = rect.bottom/window.innerHeight;
 
-if (posDraw<0) {
-  posDraw = 0;
-}
+   if (posDraw<0) {
+      posDraw = 0;
+   }
 
-//console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
 
-//cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+   //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
 
-var rvideo = document.getElementById("background-video");
+   var rvideo = document.getElementById("background-video");
 
-if (!rvideo.muted) {
+   if (!rvideo.muted) {
    rvideo.volume = (1-posDraw);
    //rvideo.muted = false;
    //rvideo.play();
-}
-   
-vbright = 100*(1-posDraw)+20;
+   }
 
-rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
+   vbright = 100*(1-posDraw)+20;
 
-//cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
-//cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+   rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
 
-  //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
-  //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
+   //cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+   //cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+
+   //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
+   //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
 }
 
 const updateImage = index_y => {
@@ -430,7 +428,7 @@ alert_elem.addEventListener( 'click', ({ target }) => {
   vid.muted = false;
 }*/
 
-//preloadImages();
+preloadImages();
 
 </script>
 </body>
