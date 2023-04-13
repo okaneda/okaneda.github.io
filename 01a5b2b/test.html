@@ -218,7 +218,7 @@ button {
 <div class="container" id="adsTxt"><h1>Canyon Crest Drive</h1>
 <h2>City of San Ramon</h2></div>
 
-<canvas id="hero-lightpass" />
+<canvas id="production" />
 
 <!--<main>
 <div class="w3-content w3-display-container">
@@ -233,29 +233,34 @@ var allImages = new Array(
 );
 
 const html = document.documentElement;
-const canvas = document.getElementById("hero-lightpass");
-//canvas.style.height = html.innerHeight;
-//canvas.style.top = html.innerHeight + 1;
 
-const cxt = canvas.getContext("2d");
-
-const frameCount = 4;
+//const frameCount = 4;
 const currentFrame = index => (
   `${allImages[index]}`
 )
 
 const preloadImages = () => {
-  for (let i = 1; i < allImages.length; i++) {
+  for (let i = 0; i < allImages.length; i++) {
     const img = new Image();
     img.src = currentFrame(i);
   }
 };
+  
+const loadHints = () => {
+  const canvas = document.getElementById("production");
+//canvas.style.height = html.innerHeight;
+//canvas.style.top = html.innerHeight + 1;
+
+const cxt = canvas.getContext("2d");
+
+};   
 
 const img = new Image()
+
+img.onload=function(){
+   
    //img.width = window.innerWidth;  
    //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
-
-   img.onload=function(){
    //context.canvas.width=window.innerWidth;
    //context.canvas.height=img.height;
    canvas.width = this.naturalWidth;
@@ -365,38 +370,36 @@ function posRatioElementInViewport2(el) {
 }
 
 window.addEventListener('scroll', () => {  
-  const scrollTop = html.scrollTop;
-  const maxScrollTop = html.scrollHeight - window.innerHeight;
-  const scrollFraction = scrollTop / maxScrollTop;
-  const frameIndex = Math.min(
+   /*const scrollTop = html.scrollTop;
+   const maxScrollTop = html.scrollHeight - window.innerHeight;
+   const scrollFraction = scrollTop / maxScrollTop;
+   const frameIndex = Math.min(
     frameCount - 1,
-    Math.ceil(scrollFraction * frameCount));
-   
+    Math.ceil(scrollFraction * frameCount));*/
+
    img.src = `${currentFrame(1)}`;
 
-//var rect = adsTxt.getBoundingClientRect();
-//console.log(rect.top, rect.right, rect.bottom, rect.left);
-  
-  //requestAnimationFrame(() => updateImage(frameIndex + 1))
+   //var rect = adsTxt.getBoundingClientRect();
+   //console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+   //requestAnimationFrame(() => updateImage(frameIndex + 1))
 });
    
 const alert_elem = document.querySelector( '.alert' );
-
-// need user interaction
 alert_elem.addEventListener( 'click', ({ target }) => {
- if( target.matches('button') ) {
-   const allowed = target.value === "1";
-   if( allowed ) {
-     var rvideo = document.getElementById("background-video");
-     rvideo.play()
-       .then((e)=>{
-           //vid.pause();
-           //vid.currentTime = 0;
-           rvideo.muted = false;
-           alert_elem.remove();
-      });
+   if( target.matches('button') ) {
+      const allowed = target.value === "1";
+      if( allowed ) {
+         var rvideo = document.getElementById("background-video");
+         rvideo.play()
+          .then((e)=>{
+              //vid.pause();
+              //vid.currentTime = 0;
+              rvideo.muted = false;
+              alert_elem.remove();
+         });
+      }
    }
- }
 });
 
 //cxt.fillStyle = "green";
