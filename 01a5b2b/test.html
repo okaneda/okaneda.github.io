@@ -218,7 +218,7 @@ button {
 <div class="container" id="adsTxt"><h1>Canyon Crest Drive</h1>
 <h2>City of San Ramon</h2></div>
 
-<canvas id="production" />
+<canvas id="production_canvas" />
 
 <!--<main>
 <div class="w3-content w3-display-container">
@@ -234,6 +234,14 @@ var allImages = new Array(
 
 const html = document.documentElement;
 
+//canvas.style.height = html.innerHeight;
+//canvas.style.top = html.innerHeight + 1;
+
+const canvas = document.getElementById("production_canvas");
+canvas.width = this.naturalWidth;
+canvas.height = this.naturalHeight;
+const cxt = canvas.getContext("2d");
+
 //const frameCount = 4;
 const currentFrame = index => (
   `${allImages[index]}`
@@ -247,38 +255,7 @@ const preloadImages = () => {
 };
   
 const loadHints = () => {
-  const canvas = document.getElementById("production");
-//canvas.style.height = html.innerHeight;
-//canvas.style.top = html.innerHeight + 1;
-
-const cxt = canvas.getContext("2d");
-
-};   
-
-const img = new Image()
-
-img.onload=function(){
-   
-   //img.width = window.innerWidth;  
-   //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
-   //context.canvas.width=window.innerWidth;
-   //context.canvas.height=img.height;
-   canvas.width = this.naturalWidth;
-   canvas.height = this.naturalHeight;
-
-   //var ratio = canvas.width / img.width    ;
-   //var vRatio = canvas.height / img.height  ;
-   //var ratio  = Math.min ( hRatio, vRatio );
-   //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
-
-   var adsTxt = document.getElementById("adsTxt");
-
-   var rect = adsTxt.getBoundingClientRect();
-
-   //console.log(rect.top, rect.right, rect.bottom, rect.left);
-   //var ratio = img.height/rect.bottom;
    cxt.clearRect(0, 0, canvas.width, canvas.height);
-
    var posDraw = rect.bottom/window.innerHeight;
 
    if (posDraw<0) {
@@ -286,27 +263,60 @@ img.onload=function(){
    }
 
    //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+   const img = new Image()
+   img.src = `${currentFrame(1)}`;
+   img.onload=function(){
+      cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+   }
+};   
+
+//const img = new Image()
+//img.onload=function(){
+   
+   //img.width = window.innerWidth;  
+   //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
+   //context.canvas.width=window.innerWidth;
+   //context.canvas.height=img.height;
+   
+   //var ratio = canvas.width / img.width    ;
+   //var vRatio = canvas.height / img.height  ;
+   //var ratio  = Math.min ( hRatio, vRatio );
+   //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+
+   //var adsTxt = document.getElementById("adsTxt");
+   //var rect = adsTxt.getBoundingClientRect();
+
+   //console.log(rect.top, rect.right, rect.bottom, rect.left);
+   //var ratio = img.height/rect.bottom;
+   
+   //var posDraw = rect.bottom/window.innerHeight;
+
+   //if (posDraw<0) {
+   //   posDraw = 0;
+   //}
+
+   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
 
    //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
 
-   var rvideo = document.getElementById("background-video");
+   //var rvideo = document.getElementById("background-video");
 
-   if (!rvideo.muted) {
-   rvideo.volume = (1-posDraw);
+   //if (!rvideo.muted) {
+   //rvideo.volume = (1-posDraw);
    //rvideo.muted = false;
    //rvideo.play();
-   }
+   //}
 
-   vbright = 100*(1-posDraw)+20;
+   //vbright = 100*(1-posDraw)+20;
 
-   rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
+   //rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
 
    //cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
    //cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
 
    //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
    //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
-}
+//}
 
 const updateImage = index_y => {
   img.src = currentFrame(index);
@@ -377,7 +387,33 @@ window.addEventListener('scroll', () => {
     frameCount - 1,
     Math.ceil(scrollFraction * frameCount));*/
 
-   img.src = `${currentFrame(1)}`;
+   var adsTxt = document.getElementById("adsTxt");
+   var rect = adsTxt.getBoundingClientRect();
+
+   //console.log(rect.top, rect.right, rect.bottom, rect.left);
+   //var ratio = img.height/rect.bottom;
+   
+   var posDraw = rect.bottom/window.innerHeight;
+
+   if (posDraw<0) {
+      posDraw = 0;
+   }
+
+   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+
+   //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+
+   var rvideo = document.getElementById("background-video");
+
+   if (!rvideo.muted) {
+      rvideo.volume = (1-posDraw);
+      //rvideo.muted = false;
+      //rvideo.play();
+   }
+
+   vbright = 100*(1-posDraw)+20;
+   rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
+   
 
    //var rect = adsTxt.getBoundingClientRect();
    //console.log(rect.top, rect.right, rect.bottom, rect.left);
