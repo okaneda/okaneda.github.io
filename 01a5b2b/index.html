@@ -318,6 +318,7 @@ alert_elem.addEventListener( 'click', ({ target }) => {
  if( target.matches('button') ) {
    const allowed = target.value === "1";
    if( allowed ) {
+     var rvideo = document.getElementById("background-video");
      rvideo.play()
        .then((e)=>{
            //vid.pause();
