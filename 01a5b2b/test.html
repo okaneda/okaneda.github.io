@@ -256,7 +256,7 @@ const preloadImages = () => {
   
 const loadHints = () => {
    var adsTxt = document.getElementById("adsTxt");
-   //var rect = adsTxt.getBoundingClientRect();
+   var rect = adsTxt.getBoundingClientRect();
    cxt.clearRect(0, 0, canvas.width, canvas.height);
    var posDraw = rect.bottom/window.innerHeight;
 
