@@ -1,0 +1,436 @@
+<html>
+<head>   
+   <title>okaneda.com Money Portal</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/x-icon" href="/okaneda.ico">
+<style>
+@font-face {
+   font-family: Lato;
+   src: url(Lato-Light.ttf);
+}
+
+/*.mySlides {display:none;}*/
+    
+/* video background */
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  filter: brightness(20%);
+}
+
+html {
+  height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+  
+body {
+  height: 500vh;
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  width: 100%;
+  border: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  background-size: cover;
+  /*transform: translate(-50%, -50%);
+  max-width: 100vw;
+  max-height: 100vh;*/
+}
+
+/*
+.hero-image {
+  background-color: #cccccc;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}*/
+
+/* iphone portrait */
+@media only screen and (min-width: 192px) {    
+   .container h1 {
+      font-size: 25px;
+   }
+   
+   .container h2 {
+      font-size: 10px;
+   }
+}
+
+/* tablets portrait */
+@media only screen and (min-width: 600px) {
+   .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+
+/* iPad portrait */
+@media only screen and (min-width: 768px) {
+    /*#background-video { display: none; }
+    body {
+      background: url("0511.jpg") no-repeat;
+      background-size: cover;
+    }*/
+   .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+/* tablets landscape */
+@media only screen and (min-width: 800px) {
+   .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+/* iPad landscape */
+@media only screen and (min-width: 1024px) {
+  .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+/* desktop */
+@media only screen and (min-width: 1200px) {
+  .container h1{      
+      font-size: 70px;      
+   }
+   .container h2{
+      font-size: 50px;
+   }
+}
+
+/*main {
+  background-color: lightblue;
+  font-size: 2rem;
+  margin-top: 50vh;
+  padding: 10px;
+  position: relative;
+}*/
+
+.container {
+   width: 100%;
+   margin: 0 auto;
+   padding: 20px;
+   border: 0;
+   display: flex;
+   flex-flow: column;
+   position: absolute;
+   background-color: transparent;
+   font-family: 'Lato', sans-serif;
+   justify-content: flex-end;
+   bottom: 0;
+   text-align: right;
+   /*flex-wrap: wrap-reverse;*/
+}
+
+.container h1{
+   white-space: nowrap;
+   color: white; 
+   z-index: 1001;
+   margin: 0 50px
+}
+   
+.container h2{
+   white-space: nowrap;
+   color: white;
+   z-index: 1001;
+   margin: 0 50px
+}
+
+.alert {
+   font: 14px 'Lato', sans-serif;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background: white;
+   border: 1px solid lightgray;  
+   border-radius: 3px;
+   margin: 10px;
+   z-index: 2001;
+
+   /*box-shadow: 3px 3px 12px lightgray;*/
+}
+
+p { margin: 12px; }
+.alert .buttons {
+  float: right
+}
+button {
+  font: 14px 'Lato', sans-serif;
+}
+
+  </style>
+  </head>
+<body>
+ 
+<video id="background-video" onloadstart="this.volume=0.0" autoplay muted loop poster="0511.jpg">
+  <source src="front-entry-web.mp4" type="video/mp4">
+</video>
+
+<div class="alert">
+  <p>This webpage would like to play sounds</p>
+  <p class="buttons">
+    <button value="0">Block</button>
+    <button value="1">Allow</button>
+  </p>
+</div>
+
+<div class="container" id="adsTxt"><h1>Canyon Crest Drive</h1>
+<h2>City of San Ramon</h2></div>
+
+<canvas id="hero-lightpass" />
+
+<!--<main>
+<div class="w3-content w3-display-container">
+  <div class="mySlides hero-image"></div>
+</div>
+  </main>-->
+<script>
+   
+var backgrounds = new Array(
+    '0511.jpg'
+  , '0472.jpg'
+  , '0509.jpg'
+  , '0510.jpg'
+);
+
+const html = document.documentElement;
+const canvas = document.getElementById("hero-lightpass");
+//canvas.style.height = html.innerHeight;
+//canvas.style.top = html.innerHeight + 1;
+
+const cxt = canvas.getContext("2d");
+
+const frameCount = 4;
+const currentFrame = index => (
+  `${backgrounds[index]}`
+)
+
+const preloadImages = () => {
+  for (let i = 1; i < frameCount; i++) {
+    const img = new Image();
+    img.src = currentFrame(i);
+  }
+};
+
+const img = new Image()
+//img.width = window.innerWidth;  
+//img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
+
+img.onload=function(){
+//context.canvas.width=window.innerWidth;
+//context.canvas.height=img.height;
+canvas.width = this.naturalWidth;
+canvas.height = this.naturalHeight;
+
+//var ratio = canvas.width / img.width    ;
+//var vRatio = canvas.height / img.height  ;
+//var ratio  = Math.min ( hRatio, vRatio );
+//cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+
+var adsTxt = document.getElementById("adsTxt");
+
+var rect = adsTxt.getBoundingClientRect();
+
+//console.log(rect.top, rect.right, rect.bottom, rect.left);
+//var ratio = img.height/rect.bottom;
+cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+var posDraw = rect.bottom/window.innerHeight;
+
+if (posDraw<0) {
+  posDraw = 0;
+}
+
+//console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+
+//cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+
+var rvideo = document.getElementById("background-video");
+
+if (!rvideo.muted) {
+   rvideo.volume = (1-posDraw);
+   //rvideo.muted = false;
+   //rvideo.play();
+}
+   
+vbright = 100*(1-posDraw)+20;
+
+rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
+
+//cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+//cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+
+  //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
+  //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
+}
+
+const updateImage = index_y => {
+  img.src = currentFrame(index);
+  cxt.drawImage(img, 0, index_y, window.innerWidth,img.height*window.innerWidth/img.width);
+}
+
+function elementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return (
+    top < (window.pageYOffset + window.innerHeight) &&
+    left < (window.pageXOffset + window.innerWidth) &&
+    (top + height) > window.pageYOffset &&
+    (left + width) > window.pageXOffset
+  );
+}
+
+function elementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return (
+    top < (window.pageYOffset + window.innerHeight) &&
+    left < (window.pageXOffset + window.innerWidth) &&
+    (top + height) > window.pageYOffset &&
+    (left + width) > window.pageXOffset
+  );
+}
+
+
+function posRatioElementInViewport2(el) {
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+    left += el.offsetLeft;
+  }
+
+  return top/(window.pageYOffset + window.innerHeight);
+}
+
+window.addEventListener('scroll', () => {  
+  const scrollTop = html.scrollTop;
+  const maxScrollTop = html.scrollHeight - window.innerHeight;
+  const scrollFraction = scrollTop / maxScrollTop;
+  const frameIndex = Math.min(
+    frameCount - 1,
+    Math.ceil(scrollFraction * frameCount));
+   
+   img.src = `${currentFrame(1)}`;
+
+//var rect = adsTxt.getBoundingClientRect();
+//console.log(rect.top, rect.right, rect.bottom, rect.left);
+  
+  //requestAnimationFrame(() => updateImage(frameIndex + 1))
+});
+   
+const alert_elem = document.querySelector( '.alert' );
+
+// need user interaction
+alert_elem.addEventListener( 'click', ({ target }) => {
+ if( target.matches('button') ) {
+   const allowed = target.value === "1";
+   if( allowed ) {
+     var rvideo = document.getElementById("background-video");
+     rvideo.play()
+       .then((e)=>{
+           //vid.pause();
+           //vid.currentTime = 0;
+           rvideo.muted = false;
+           alert_elem.remove();
+      });
+   }
+ }
+});
+
+//cxt.fillStyle = "green";
+//cxt.fillRect(20, 10, 150, 100);
+//var renderImg = false;
+
+//var rvideo = document.getElementById("background-video");
+//rvideo.volume = 0.0;
+
+//const vid = document.createElement("video");
+//vid.setAttribute("src", "front-entry-web.mp4");
+
+//const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
+//vid.muted = true;
+
+
+/*document.getElementById( 'btn' ).addEventListener( 'click', (e) => {
+  if( audio.muted ) {
+    console.log( 'silent notification' );
+  }
+  else {
+    audio.play();
+  }
+} );*/
+
+/*function resetVideo() {
+  vid.pause();
+  vid.currentTime = 0;
+  vid.muted = false;
+}*/
+
+//preloadImages();
+
+</script>
+</body>
+</html>
