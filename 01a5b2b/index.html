@@ -68,7 +68,8 @@ canvas {
   color: white;
 }*/
 
-@media (max-width: 750px) {
+/* iPad portrait */
+@media only screen and (min-width: 768px) {
     /*#background-video { display: none; }
     body {
       background: url("0511.jpg") no-repeat;
@@ -79,6 +80,46 @@ canvas {
    }
    .container h2{
       font-size: 30px;
+   }
+}
+   
+/* iPad landscape */
+@media only screen and (min-width: 1024px) {
+  .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+/* tablets portrait */
+@media only screen and (min-width: 600px) {
+   .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+   
+/* tablets landscape */
+@media only screen and (min-width: 800px) {
+   .container h1{
+      font-size: 50px;
+   }
+   .container h2{
+      font-size: 30px;
+   }
+}
+
+/* desktop */
+@media only screen and (min-width: 1200px) {
+  .container h1{      
+      font-size: 70px;      
+   }
+   .container h2{
+      font-size: 50px;
    }
 }
 
@@ -109,14 +150,12 @@ text-align: right;
 .container h1{
 white-space: nowrap;
 color: white; 
-font-size: 70px;
 z-index: 1001;
 margin: 0 50px
 }
 .container h2{
 white-space: nowrap;
-color: white; 
-font-size: 50px;
+color: white;
 z-index: 1001;
 margin: 0 50px
 }
