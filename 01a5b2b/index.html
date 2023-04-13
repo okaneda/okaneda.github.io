@@ -186,12 +186,12 @@ const img = new Image()
 //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
 
 img.onload=function(){
-  //context.canvas.width=window.innerWidth;
-  //context.canvas.height=img.height;
-  canvas.width = this.naturalWidth;
-  canvas.height = this.naturalHeight;
+//context.canvas.width=window.innerWidth;
+//context.canvas.height=img.height;
+canvas.width = this.naturalWidth;
+canvas.height = this.naturalHeight;
 
-   //var ratio = canvas.width / img.width    ;
+//var ratio = canvas.width / img.width    ;
 //var vRatio = canvas.height / img.height  ;
 //var ratio  = Math.min ( hRatio, vRatio );
 //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
@@ -215,29 +215,13 @@ console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffse
 //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
 
 var rvideo = document.getElementById("background-video");
-rvideo.volume = (1-posDraw);
-if (rvideo.muted) {
-   
-   const alert_elem = document.querySelector( '.alert' );
 
-   // need user interaction
-   alert_elem.addEventListener( 'click', ({ target }) => {
-    if( target.matches('button') ) {
-      const allowed = target.value === "1";
-      if( allowed ) {
-        rvideo.play()
-          .then((e)=>{
-              //vid.pause();
-              //vid.currentTime = 0;
-              e.target.muted = false;
-              target.remove();
-         });
-      }
-    }
-   });
+if (!rvideo.muted) {
+   rvideo.volume = (1-posDraw);
    //rvideo.muted = false;
    //rvideo.play();
 }
+   
 vbright = 100*(1-posDraw)+20;
 
 rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
@@ -324,6 +308,24 @@ window.addEventListener('scroll', () => {
 //console.log(rect.top, rect.right, rect.bottom, rect.left);
   
   //requestAnimationFrame(() => updateImage(frameIndex + 1))
+});
+   
+const alert_elem = document.querySelector( '.alert' );
+
+// need user interaction
+alert_elem.addEventListener( 'click', ({ target }) => {
+ if( target.matches('button') ) {
+   const allowed = target.value === "1";
+   if( allowed ) {
+     rvideo.play()
+       .then((e)=>{
+           //vid.pause();
+           //vid.currentTime = 0;
+           e.target.muted = false;
+           target.remove();
+      });
+   }
+ }
 });
 
 //cxt.fillStyle = "green";
