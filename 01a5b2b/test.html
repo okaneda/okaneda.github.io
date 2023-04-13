@@ -227,7 +227,7 @@ button {
   </main>-->
 <script>
    
-var backgrounds = new Array(
+var allImages = new Array(
     '0511.jpg'
   , 'arrow_tip.svg'
 );
@@ -241,11 +241,11 @@ const cxt = canvas.getContext("2d");
 
 const frameCount = 4;
 const currentFrame = index => (
-  `${backgrounds[index]}`
+  `${allImages[index]}`
 )
 
 const preloadImages = () => {
-  for (let i = 1; i < frameCount; i++) {
+  for (let i = 1; i < allImages.length; i++) {
     const img = new Image();
     img.src = currentFrame(i);
   }
