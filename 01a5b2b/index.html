@@ -204,8 +204,6 @@ var rect = adsTxt.getBoundingClientRect();
 //var ratio = img.height/rect.bottom;
 cxt.clearRect(0, 0, canvas.width, canvas.height);
 
-
-
 var posDraw = rect.bottom/window.innerHeight;
 
 if (posDraw<0) {
@@ -220,6 +218,23 @@ var rvideo = document.getElementById("background-video");
 rvideo.volume = (1-posDraw);
 if (rvideo.muted) {
    
+   const alert_elem = document.querySelector( '.alert' );
+
+   // need user interaction
+   alert_elem.addEventListener( 'click', ({ target }) => {
+    if( target.matches('button') ) {
+      const allowed = target.value === "1";
+      if( allowed ) {
+        rvideo.play()
+          .then((e)=>{
+              //vid.pause();
+              //vid.currentTime = 0;
+              e.target.muted = false;
+              target.remove();
+         });
+      }
+    }
+   });
    //rvideo.muted = false;
    //rvideo.play();
 }
@@ -318,36 +333,12 @@ window.addEventListener('scroll', () => {
 //var rvideo = document.getElementById("background-video");
 //rvideo.volume = 0.0;
 
-const vid = document.createElement("video");
-vid.setAttribute("src", "front-entry-web.mp4");
+//const vid = document.createElement("video");
+//vid.setAttribute("src", "front-entry-web.mp4");
 
 //const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
-vid.muted = true;
+//vid.muted = true;
 
-const alert_elem = document.querySelector( '.alert' );
-
-vid.play().then( () => {
-  // already allowed
-  alert_elem.remove();
-  resetVideo();
-  
-  //img.src = `${currentFrame(1)}`;
-
-}).catch( () => {
-
-  
-  // need user interaction
-  alert_elem.addEventListener( 'click', ({ target }) => {
-    if( target.matches('button') ) {
-      const allowed = target.value === "1";
-      if( allowed ) {
-        vid.play()
-          .then( resetVideo );
-      }
-      alert_elem.remove();
-    }
-  } );
-} );
 
 /*document.getElementById( 'btn' ).addEventListener( 'click', (e) => {
   if( audio.muted ) {
@@ -358,11 +349,11 @@ vid.play().then( () => {
   }
 } );*/
 
-function resetVideo() {
+/*function resetVideo() {
   vid.pause();
   vid.currentTime = 0;
   vid.muted = false;
-}
+}*/
 
 //preloadImages();
 
