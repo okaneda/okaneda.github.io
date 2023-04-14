@@ -264,13 +264,14 @@ const preloadImages = () => {
 };
 
 const stopHints = () => {
-   if (!isCanvasEmpty(canvas)) {
+   //if (!isCanvasEmpty(canvas)) {
       if (intervalID!=null){
          clearInterval(intervalID);
+         intervalID = null;
       }
          //intervalID = null;
       clearContext();      
-   }
+   //}
 };
 
 const clearContext = () => {
@@ -308,6 +309,8 @@ const loadHints = () => {
          var nh = ih*nw/iw;
          var h_step = 10;
          var seqNum = 0;
+         
+         stopHints();         
          intervalID = setInterval(()=>{
 
             cxt.clearRect(0, 0, canvas.width, canvas.height);
@@ -315,7 +318,6 @@ const loadHints = () => {
                           canvas.width/2-(nw/2),
                           canvas.height/2-(nh/2)-seqNum*h_step,
                           nw, nh);
-
 
             cxt.font = `${nw*0.6|0}px Comic Sans MS`;
             cxt.fillStyle = "white";
