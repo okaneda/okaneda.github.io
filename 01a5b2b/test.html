@@ -234,7 +234,7 @@ var allImages = new Array(
 );
 
 const html = document.documentElement;
-let intervalID;
+let intervalID, scrollInView = true;
 //canvas.style.height = html.innerHeight;
 //canvas.style.top = html.innerHeight + 1;
 
@@ -247,6 +247,15 @@ const currentFrame = index => (
   `${allImages[index]}`
 )
 
+const isCanvasEmpty = (cnv) => {
+   const blank = document.createElement('canvas');
+
+   blank.width = cnv.width;
+   blank.height = cnv.height;
+
+   return cnv.toDataURL() === blank.toDataURL();
+}
+
 const preloadImages = () => {
   for (let i = 0; i < allImages.length; i++) {
     const img = new Image();
@@ -255,10 +264,12 @@ const preloadImages = () => {
 };
 
 const stopHints = () => {
-   if (intervalID!=null){
-      clearInterval(intervalID);
-      intervalID = null;
-      clearContext();
+   if (!isCanvasEmpty(canvas)) {
+      if (intervalID!=null){
+         clearInterval(intervalID);
+         intervalID = null;
+         clearContext();
+      }
    }
 };
 
@@ -269,54 +280,59 @@ const clearContext = () => {
 
 const loadHints = () => {
    
-   const img = new Image()
-   img.src = `${currentFrame(2)}`;
-   img.onload = () => {
+   if (isCanvasEmpty(canvas)) {
+      
+      const img = new Image()
+      img.src = `${currentFrame(2)}`;
+      img.onload = () => {
 
-      //var adsTxt = document.getElementById("adsTxt");
-      //var rect = adsTxt.getBoundingClientRect();
-      
-      const cxt = canvas.getContext("2d");
-      
-      
-   
-      /*var posDraw = rect.bottom/window.innerHeight;
+         //var adsTxt = document.getElementById("adsTxt");
+         //var rect = adsTxt.getBoundingClientRect();
 
-      if (posDraw<0) {
-         posDraw = 0;
-      }*/   
-      
-      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
-      //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
-      var iw = img.naturalWidth;
-      var ih = img.naturalHeight;
-      
-      var nw = canvas.width*0.1;
-      var nh = ih*nw/iw;
-      var h_step = 10;
-      var seqNum = 0;
-      intervalID = setInterval(()=>{
-         
-         cxt.clearRect(0, 0, canvas.width, canvas.height);
-         cxt.drawImage(img,
-                       canvas.width/2-(nw/2),
-                       canvas.height/2-(nh/2)-seqNum*h_step,
-                       nw, nh);
-         
+         const cxt = canvas.getContext("2d");
 
-         cxt.font = `${nw*0.6|0}px Comic Sans MS`;
-         cxt.fillStyle = "white";
-         cxt.filter = "filter: opacity(50%)";
-         cxt.textAlign = "center";
-         cxt.fillText("Slide", (canvas.width/2-(nw/2)+nw*0.3), (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
-         
-         seqNum>2?seqNum=0:seqNum++;
-         
-      }, 200);
-      
-      //const ctx = document.getElementById("canvas").getContext("2d");
-  
-   };
+
+
+         /*var posDraw = rect.bottom/window.innerHeight;
+
+         if (posDraw<0) {
+            posDraw = 0;
+         }*/   
+
+         //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
+         //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+         var iw = img.naturalWidth;
+         var ih = img.naturalHeight;
+
+         var nw = canvas.width*0.1;
+         var nh = ih*nw/iw;
+         var h_step = 10;
+         var seqNum = 0;
+         intervalID = setInterval(()=>{
+
+            cxt.clearRect(0, 0, canvas.width, canvas.height);
+            cxt.drawImage(img,
+                          canvas.width/2-(nw/2),
+                          canvas.height/2-(nh/2)-seqNum*h_step,
+                          nw, nh);
+
+
+            cxt.font = `${nw*0.6|0}px Comic Sans MS`;
+            cxt.fillStyle = "white";
+            cxt.filter = "filter: opacity(50%)";
+            cxt.textAlign = "center";
+            cxt.fillText("Slide", 
+                         (canvas.width/2-(nw/2)+nw*0.3), 
+                         (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
+
+            seqNum>2?seqNum=0:seqNum++;
+
+         }, 200);
+
+         //const ctx = document.getElementById("canvas").getContext("2d");
+
+      };
+   }
 };   
 
 //const img = new Image()
@@ -412,22 +428,6 @@ function elementInViewport2(el) {
   );
 }
 
-
-function posRatioElementInViewport2(el) {
-  var top = el.offsetTop;
-  var left = el.offsetLeft;
-  var width = el.offsetWidth;
-  var height = el.offsetHeight;
-
-  while(el.offsetParent) {
-    el = el.offsetParent;
-    top += el.offsetTop;
-    left += el.offsetLeft;
-  }
-
-  return top/(window.pageYOffset + window.innerHeight);
-}
-
 window.addEventListener('scroll', () => {  
    /*const scrollTop = html.scrollTop;
    const maxScrollTop = html.scrollHeight - window.innerHeight;
@@ -463,7 +463,13 @@ window.addEventListener('scroll', () => {
    vbright = 100*(1-posDraw)+20;
    rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
    
-   stopHints();
+   if (elementInViewport2(adsTxt)) {
+      loadHints();
+   } else {
+      stopHints();
+   }
+   
+   //stopHints();
    //var rect = adsTxt.getBoundingClientRect();
    //console.log(rect.top, rect.right, rect.bottom, rect.left);
 
