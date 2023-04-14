@@ -302,9 +302,12 @@ const loadHints = () => {
                        canvas.width/2-(nw/2),
                        canvas.height/2-(nh/2)-seqNum*h_step,
                        nw, nh);
-      
-         cxt.font = `${nw}px Comic Sans MS`;
+         
+
+         cxt.font = `${nw*0.2}px Comic Sans MS`;
+         cxt.filter = "filter: opacity(50%)";
          cxt.fillText("Slide", canvas.width/2-(nw/2), canvas.height/2-(nh/2)-seqNum*h_step+nh+10);
+         cxt.fillStyle = "white";
          
          seqNum>2?seqNum=0:seqNum++;
          
