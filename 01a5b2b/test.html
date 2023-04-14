@@ -274,12 +274,14 @@ const loadHints = () => {
       }*/   
       
       //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
-      //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+      //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height); 
+      var nw = 20;
+      var nh = ch*20/cw;
       
       cxt.drawImage(img,
-                    rect.left,
-                    rect.top-(ch*20/cw),
-                    20, ch*20/cw);
+                    rect.left/2-(nw/2),
+                    rect.top-nh,
+                    20, nh);
    }
 };   
 
