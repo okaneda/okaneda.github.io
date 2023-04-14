@@ -253,27 +253,33 @@ const preloadImages = () => {
 };
   
 const loadHints = () => {
-   //canvas.width = this.naturalWidth;
-   //canvas.height = this.naturalHeight;
-   const cxt = canvas.getContext("2d");
-   var adsTxt = document.getElementById("adsTxt");
-   var rect = adsTxt.getBoundingClientRect();
-   cxt.clearRect(0, 0, canvas.width, canvas.height);
-   var posDraw = rect.bottom/window.innerHeight;
+   
+   
 
-   if (posDraw<0) {
-      posDraw = 0;
-   }
-
-   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
    const img = new Image()
    img.src = `${currentFrame(1)}`;
    img.onload = () => {
+
+      var cw = this.naturalWidth;
+      var ch = this.naturalHeight;
+      const cxt = canvas.getContext("2d");
+      cxt.clearRect(0, 0, canvas.width, canvas.height);
+   
+      var adsTxt = document.getElementById("adsTxt");
+      var rect = adsTxt.getBoundingClientRect();
+      /*var posDraw = rect.bottom/window.innerHeight;
+
+      if (posDraw<0) {
+         posDraw = 0;
+      }*/   
+      
+      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
       //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+      
       cxt.drawImage(img,
                     rect.left,
-                    rect.top-(img.height*20/img.width),
-                    20, img.height*20/img.width);
+                    rect.top-(ch*20/cw),
+                    20, ch*20/cw);
    }
 };   
 
