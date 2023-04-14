@@ -49,9 +49,9 @@ canvas {
   top: 0;
   z-index: 0;
   background-size: cover;
-  /*transform: translate(-50%, -50%);*/
+  /*transform: translate(-50%, -50%);
   max-width: 100vw;
-  max-height: 100vh;
+  max-height: 100vh;*/
 }
 
 /*
@@ -268,7 +268,7 @@ const loadHints = () => {
    //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
    const img = new Image()
    img.src = `${currentFrame(1)}`;
-   img.onload=function(){
+   img.onload = () => {
       cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
    }
 };   
