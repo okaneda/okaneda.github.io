@@ -270,8 +270,7 @@ const clearContext = () => {
 
 const loadHints = () => {
    
-   const img = new Image()
-   img.src = `${currentFrame(1)}`;
+   const img = new Image();
    img.onload = () => {
 
       //var adsTxt = document.getElementById("adsTxt");
@@ -317,7 +316,9 @@ const loadHints = () => {
       
       //const ctx = document.getElementById("canvas").getContext("2d");
   
-   }
+   };
+   
+   img.src = `${currentFrame(1)}`;   
 };   
 
 //const img = new Image()
