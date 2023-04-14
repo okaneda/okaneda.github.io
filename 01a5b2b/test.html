@@ -270,7 +270,9 @@ const loadHints = () => {
    img.src = `${currentFrame(1)}`;
    img.onload = () => {
       //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
-      cxt.drawImage(img, rect.top+img.height+10,rect.left+10,20, img.height*20/img.width);
+      cxt.drawImage(img, 
+                    rect.top+(img.height*20/img.width)+10,
+                    rect.left+10, 20, img.height*20/img.width);
    }
 };   
 
