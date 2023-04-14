@@ -234,7 +234,7 @@ var allImages = new Array(
 );
 
 const html = document.documentElement;
-
+let intervalID;
 //canvas.style.height = html.innerHeight;
 //canvas.style.top = html.innerHeight + 1;
 
@@ -253,7 +253,20 @@ const preloadImages = () => {
     img.src = currentFrame(i);
   }
 };
-  
+
+const stopHints = () => {
+   if (nIntervId!=null){
+      clearInterval(intervalID);
+      nIntervId = null;
+      clearContext();
+   }
+};
+
+const clearContext = () => {
+   const cxt = canvas.getContext("2d");
+   cxt.clearRect(0, 0, canvas.width, canvas.height);         
+};
+
 const loadHints = () => {
    
    const img = new Image()
@@ -282,7 +295,7 @@ const loadHints = () => {
       var nh = ih*nw/iw;
       var h_step = 10;
       var seqNum = 0;
-      const intervalID = setInterval(()=>{
+      intervalID = setInterval(()=>{
          
          cxt.clearRect(0, 0, canvas.width, canvas.height);
          cxt.drawImage(img,
@@ -441,7 +454,7 @@ window.addEventListener('scroll', () => {
    vbright = 100*(1-posDraw)+20;
    rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
    
-
+   stopHints();
    //var rect = adsTxt.getBoundingClientRect();
    //console.log(rect.top, rect.right, rect.bottom, rect.left);
 
