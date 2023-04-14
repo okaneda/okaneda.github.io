@@ -303,10 +303,15 @@ const loadHints = () => {
                        canvas.height/2-(nh/2)-seqNum*h_step,
                        nw, nh);
       
+         cxt.font = `${nw}px Comic Sans MS`;
+         cxt.fillText("Slide", canvas.width/2-(nw/2), canvas.height/2-(nh/2)-seqNum*h_step+nh+10);
+         
          seqNum>2?seqNum=0:seqNum++;
          
       }, 200);
       
+      //const ctx = document.getElementById("canvas").getContext("2d");
+  
    }
 };   
 
