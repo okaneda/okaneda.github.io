@@ -278,7 +278,7 @@ const loadHints = () => {
       var iw = img.naturalWidth;
       var ih = img.naturalHeight;
       
-      var nw = 60;
+      var nw = iw*0.1;
       var nh = ih*nw/iw;
       
       cxt.drawImage(img,
