@@ -10,8 +10,6 @@
    src: url(Lato-Light.ttf);
 }
 
-/*.mySlides {display:none;}*/
-    
 /* video background */
 #background-video {
   width: 100vw;
@@ -264,14 +262,11 @@ const preloadImages = () => {
 };
 
 const stopHints = () => {
-   //if (!isCanvasEmpty(canvas)) {
-      if (intervalID!=null){
-         clearInterval(intervalID);
-         intervalID = null;
-      }
-         //intervalID = null;
-      clearContext();      
-   //}
+   if (intervalID!=null){
+      clearInterval(intervalID);
+      intervalID = null;
+   }
+   clearContext();    
 };
 
 const clearContext = () => {
