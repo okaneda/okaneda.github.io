@@ -260,8 +260,8 @@ const loadHints = () => {
    img.src = `${currentFrame(1)}`;
    img.onload = () => {
 
-      var cw = this.naturalWidth;
-      var ch = this.naturalHeight;
+      var cw = img.naturalWidth;
+      var ch = img.naturalHeight;
       const cxt = canvas.getContext("2d");
       cxt.clearRect(0, 0, canvas.width, canvas.height);
    
