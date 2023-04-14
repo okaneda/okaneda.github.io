@@ -239,9 +239,6 @@ const html = document.documentElement;
 //canvas.style.top = html.innerHeight + 1;
 
 const canvas = document.getElementById("production_canvas");
-canvas.width = this.naturalWidth;
-canvas.height = this.naturalHeight;
-const cxt = canvas.getContext("2d");
 
 //const frameCount = 4;
 const currentFrame = index => (
@@ -256,6 +253,9 @@ const preloadImages = () => {
 };
   
 const loadHints = () => {
+   //canvas.width = this.naturalWidth;
+   //canvas.height = this.naturalHeight;
+   const cxt = canvas.getContext("2d");
    var adsTxt = document.getElementById("adsTxt");
    var rect = adsTxt.getBoundingClientRect();
    cxt.clearRect(0, 0, canvas.width, canvas.height);
