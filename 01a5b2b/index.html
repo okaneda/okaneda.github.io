@@ -228,301 +228,304 @@ button {
 </div>
   </main>-->
 <script>
-   
-var allImages = new Array(
-    '0511.jpg'
-  , 'arrow_tip.svg'
-);
+window.addEventListener('load', ()=>{
 
-const html = document.documentElement;
-let intervalID;
-//canvas.style.height = html.innerHeight;
-//canvas.style.top = html.innerHeight + 1;
+   var allImages = new Array(
+       '0511.jpg'
+     , 'arrow_tip.svg'
+   );
 
-const canvas = document.getElementById("production_canvas");
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
-   
-//const frameCount = 4;
-const currentFrame = index => (
-  `${allImages[index]}`
-)
+   const html = document.documentElement;
+   let intervalID;
+   //canvas.style.height = html.innerHeight;
+   //canvas.style.top = html.innerHeight + 1;
 
-const preloadImages = () => {
-  for (let i = 0; i < allImages.length; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-  }
-};
+   const canvas = document.getElementById("production_canvas");
+   canvas.width  = window.innerWidth;
+   canvas.height = window.innerHeight;
 
-const stopHints = () => {
-   if (intervalID!=null){
-      clearInterval(intervalID);
-      intervalID = null;
-      clearContext();
-   }
-};
+   //const frameCount = 4;
+   const currentFrame = index => (
+     `${allImages[index]}`
+   )
 
-const clearContext = () => {
-   const cxt = canvas.getContext("2d");
-   cxt.clearRect(0, 0, canvas.width, canvas.height);         
-};
+   const preloadImages = () => {
+     for (let i = 0; i < allImages.length; i++) {
+       const img = new Image();
+       img.src = currentFrame(i);
+     }
+   };
 
-const loadHints = () => {
-   
-   const img = new Image();
-   img.onload = () => {
+   const stopHints = () => {
+      if (intervalID!=null){
+         clearInterval(intervalID);
+         intervalID = null;
+         clearContext();
+      }
+   };
+
+   const clearContext = () => {
+      const cxt = canvas.getContext("2d");
+      cxt.clearRect(0, 0, canvas.width, canvas.height);         
+   };
+
+   const loadHints = () => {
+
+      const img = new Image();
+      img.onload = () => {
+
+         //var adsTxt = document.getElementById("adsTxt");
+         //var rect = adsTxt.getBoundingClientRect();
+
+         const cxt = canvas.getContext("2d");
+
+
+
+         /*var posDraw = rect.bottom/window.innerHeight;
+
+         if (posDraw<0) {
+            posDraw = 0;
+         }*/   
+
+         //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
+         //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+         var iw = img.naturalWidth;
+         var ih = img.naturalHeight;
+
+         var nw = canvas.width*0.1;
+         var nh = ih*nw/iw;
+         var h_step = 10;
+         var seqNum = 0;
+         intervalID = setInterval(()=>{
+
+            cxt.clearRect(0, 0, canvas.width, canvas.height);
+            cxt.drawImage(img,
+                          canvas.width/2-(nw/2),
+                          canvas.height/2-(nh/2)-seqNum*h_step,
+                          nw, nh);
+
+
+            cxt.font = `${nw*0.6|0}px Comic Sans MS`;
+            cxt.fillStyle = "white";
+            cxt.filter = "filter: opacity(50%)";
+            cxt.textAlign = "center";
+            cxt.fillText("Slide", (canvas.width/2-(nw/2)+nw*0.3), (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
+
+            seqNum>2?seqNum=0:seqNum++;
+
+         }, 200);
+
+         //const ctx = document.getElementById("canvas").getContext("2d");
+
+      };
+
+      img.src = `${currentFrame(1)}`;   
+   };   
+
+   //const img = new Image()
+   //img.onload=function(){
+
+      //img.width = window.innerWidth;  
+      //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
+      //context.canvas.width=window.innerWidth;
+      //context.canvas.height=img.height;
+
+      //var ratio = canvas.width / img.width    ;
+      //var vRatio = canvas.height / img.height  ;
+      //var ratio  = Math.min ( hRatio, vRatio );
+      //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
 
       //var adsTxt = document.getElementById("adsTxt");
       //var rect = adsTxt.getBoundingClientRect();
-      
-      const cxt = canvas.getContext("2d");
-      
-      
-   
-      /*var posDraw = rect.bottom/window.innerHeight;
+
+      //console.log(rect.top, rect.right, rect.bottom, rect.left);
+      //var ratio = img.height/rect.bottom;
+
+      //var posDraw = rect.bottom/window.innerHeight;
+
+      //if (posDraw<0) {
+      //   posDraw = 0;
+      //}
+
+      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+
+      //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+
+      //var rvideo = document.getElementById("background-video");
+
+      //if (!rvideo.muted) {
+      //rvideo.volume = (1-posDraw);
+      //rvideo.muted = false;
+      //rvideo.play();
+      //}
+
+      //vbright = 100*(1-posDraw)+20;
+
+      //rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
+
+      //cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+      //cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
+
+      //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
+      //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
+   //}
+
+   const updateImage = index_y => {
+     img.src = currentFrame(index);
+     cxt.drawImage(img, 0, index_y, window.innerWidth,img.height*window.innerWidth/img.width);
+   }
+
+   function elementInViewport2(el) {
+     var top = el.offsetTop;
+     var left = el.offsetLeft;
+     var width = el.offsetWidth;
+     var height = el.offsetHeight;
+
+     while(el.offsetParent) {
+       el = el.offsetParent;
+       top += el.offsetTop;
+       left += el.offsetLeft;
+     }
+
+     return (
+       top < (window.pageYOffset + window.innerHeight) &&
+       left < (window.pageXOffset + window.innerWidth) &&
+       (top + height) > window.pageYOffset &&
+       (left + width) > window.pageXOffset
+     );
+   }
+
+   function elementInViewport2(el) {
+     var top = el.offsetTop;
+     var left = el.offsetLeft;
+     var width = el.offsetWidth;
+     var height = el.offsetHeight;
+
+     while(el.offsetParent) {
+       el = el.offsetParent;
+       top += el.offsetTop;
+       left += el.offsetLeft;
+     }
+
+     return (
+       top < (window.pageYOffset + window.innerHeight) &&
+       left < (window.pageXOffset + window.innerWidth) &&
+       (top + height) > window.pageYOffset &&
+       (left + width) > window.pageXOffset
+     );
+   }
+
+
+   function posRatioElementInViewport2(el) {
+     var top = el.offsetTop;
+     var left = el.offsetLeft;
+     var width = el.offsetWidth;
+     var height = el.offsetHeight;
+
+     while(el.offsetParent) {
+       el = el.offsetParent;
+       top += el.offsetTop;
+       left += el.offsetLeft;
+     }
+
+     return top/(window.pageYOffset + window.innerHeight);
+   }
+
+   window.addEventListener('scroll', () => {  
+      /*const scrollTop = html.scrollTop;
+      const maxScrollTop = html.scrollHeight - window.innerHeight;
+      const scrollFraction = scrollTop / maxScrollTop;
+      const frameIndex = Math.min(
+       frameCount - 1,
+       Math.ceil(scrollFraction * frameCount));*/
+
+      var adsTxt = document.getElementById("adsTxt");
+      var rect = adsTxt.getBoundingClientRect();
+
+      //console.log(rect.top, rect.right, rect.bottom, rect.left);
+      //var ratio = img.height/rect.bottom;
+
+      var posDraw = rect.bottom/window.innerHeight;
 
       if (posDraw<0) {
          posDraw = 0;
-      }*/   
-      
-      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
+      }
+
+      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+
       //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
-      var iw = img.naturalWidth;
-      var ih = img.naturalHeight;
-      
-      var nw = canvas.width*0.1;
-      var nh = ih*nw/iw;
-      var h_step = 10;
-      var seqNum = 0;
-      intervalID = setInterval(()=>{
-         
-         cxt.clearRect(0, 0, canvas.width, canvas.height);
-         cxt.drawImage(img,
-                       canvas.width/2-(nw/2),
-                       canvas.height/2-(nh/2)-seqNum*h_step,
-                       nw, nh);
-         
 
-         cxt.font = `${nw*0.6|0}px Comic Sans MS`;
-         cxt.fillStyle = "white";
-         cxt.filter = "filter: opacity(50%)";
-         cxt.textAlign = "center";
-         cxt.fillText("Slide", (canvas.width/2-(nw/2)+nw*0.3), (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
-         
-         seqNum>2?seqNum=0:seqNum++;
-         
-      }, 200);
-      
-      //const ctx = document.getElementById("canvas").getContext("2d");
-  
-   };
-   
-   img.src = `${currentFrame(1)}`;   
-};   
+      var rvideo = document.getElementById("background-video");
 
-//const img = new Image()
-//img.onload=function(){
-   
-   //img.width = window.innerWidth;  
-   //img.src = `https://portal.okaneda.com/01a5b2b/${currentFrame(1)}`;
-   //context.canvas.width=window.innerWidth;
-   //context.canvas.height=img.height;
-   
-   //var ratio = canvas.width / img.width    ;
-   //var vRatio = canvas.height / img.height  ;
-   //var ratio  = Math.min ( hRatio, vRatio );
-   //cxt.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+      if (!rvideo.muted) {
+         rvideo.volume = (1-posDraw);
+         //rvideo.muted = false;
+         //rvideo.play();
+      }
 
-   //var adsTxt = document.getElementById("adsTxt");
-   //var rect = adsTxt.getBoundingClientRect();
+      vbright = 100*(1-posDraw)+20;
+      rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
 
-   //console.log(rect.top, rect.right, rect.bottom, rect.left);
-   //var ratio = img.height/rect.bottom;
-   
-   //var posDraw = rect.bottom/window.innerHeight;
+      stopHints();
+      //var rect = adsTxt.getBoundingClientRect();
+      //console.log(rect.top, rect.right, rect.bottom, rect.left);
 
-   //if (posDraw<0) {
-   //   posDraw = 0;
-   //}
+      //requestAnimationFrame(() => updateImage(frameIndex + 1))
+   });
 
-   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+   const alert_elem = document.querySelector( '.alert' );
+   alert_elem.addEventListener( 'click', ({ target }) => {
+      if( target.matches('button') ) {
+         const allowed = target.value === "1";
+         if( allowed ) {
+            var rvideo = document.getElementById("background-video");
+            rvideo.play()
+             .then((e)=>{
+                 //vid.pause();
+                 //vid.currentTime = 0;
+                 rvideo.muted = false;
+                 alert_elem.remove();
+            });
 
-   //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+         } else {
+            alert_elem.remove();
+         }
+      }
+   });
+
+   //cxt.fillStyle = "green";
+   //cxt.fillRect(20, 10, 150, 100);
+   //var renderImg = false;
 
    //var rvideo = document.getElementById("background-video");
+   //rvideo.volume = 0.0;
 
-   //if (!rvideo.muted) {
-   //rvideo.volume = (1-posDraw);
-   //rvideo.muted = false;
-   //rvideo.play();
-   //}
+   //const vid = document.createElement("video");
+   //vid.setAttribute("src", "front-entry-web.mp4");
 
-   //vbright = 100*(1-posDraw)+20;
-
-   //rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
-
-   //cxt.drawImage(img, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
-   //cxt.drawImage(img, 0,0, img.width, img.height, 0,rect.bottom+10,img.width*ratio, img.height*ratio);
-
-   //console.log(`rect.bottom*ratio ${rect.bottom*ratio}`)
-   //cxt.drawImage(img, 0, 0, window.innerWidth,img.height*window.innerWidth/img.width);  
-//}
-
-const updateImage = index_y => {
-  img.src = currentFrame(index);
-  cxt.drawImage(img, 0, index_y, window.innerWidth,img.height*window.innerWidth/img.width);
-}
-
-function elementInViewport2(el) {
-  var top = el.offsetTop;
-  var left = el.offsetLeft;
-  var width = el.offsetWidth;
-  var height = el.offsetHeight;
-
-  while(el.offsetParent) {
-    el = el.offsetParent;
-    top += el.offsetTop;
-    left += el.offsetLeft;
-  }
-
-  return (
-    top < (window.pageYOffset + window.innerHeight) &&
-    left < (window.pageXOffset + window.innerWidth) &&
-    (top + height) > window.pageYOffset &&
-    (left + width) > window.pageXOffset
-  );
-}
-
-function elementInViewport2(el) {
-  var top = el.offsetTop;
-  var left = el.offsetLeft;
-  var width = el.offsetWidth;
-  var height = el.offsetHeight;
-
-  while(el.offsetParent) {
-    el = el.offsetParent;
-    top += el.offsetTop;
-    left += el.offsetLeft;
-  }
-
-  return (
-    top < (window.pageYOffset + window.innerHeight) &&
-    left < (window.pageXOffset + window.innerWidth) &&
-    (top + height) > window.pageYOffset &&
-    (left + width) > window.pageXOffset
-  );
-}
+   //const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
+   //vid.muted = true;
 
 
-function posRatioElementInViewport2(el) {
-  var top = el.offsetTop;
-  var left = el.offsetLeft;
-  var width = el.offsetWidth;
-  var height = el.offsetHeight;
+   /*document.getElementById( 'btn' ).addEventListener( 'click', (e) => {
+     if( audio.muted ) {
+       console.log( 'silent notification' );
+     }
+     else {
+       audio.play();
+     }
+   } );*/
 
-  while(el.offsetParent) {
-    el = el.offsetParent;
-    top += el.offsetTop;
-    left += el.offsetLeft;
-  }
+   /*function resetVideo() {
+     vid.pause();
+     vid.currentTime = 0;
+     vid.muted = false;
+   }*/
 
-  return top/(window.pageYOffset + window.innerHeight);
-}
-
-window.addEventListener('scroll', () => {  
-   /*const scrollTop = html.scrollTop;
-   const maxScrollTop = html.scrollHeight - window.innerHeight;
-   const scrollFraction = scrollTop / maxScrollTop;
-   const frameIndex = Math.min(
-    frameCount - 1,
-    Math.ceil(scrollFraction * frameCount));*/
-
-   var adsTxt = document.getElementById("adsTxt");
-   var rect = adsTxt.getBoundingClientRect();
-
-   //console.log(rect.top, rect.right, rect.bottom, rect.left);
-   //var ratio = img.height/rect.bottom;
-   
-   var posDraw = rect.bottom/window.innerHeight;
-
-   if (posDraw<0) {
-      posDraw = 0;
-   }
-
-   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
-
-   //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
-
-   var rvideo = document.getElementById("background-video");
-
-   if (!rvideo.muted) {
-      rvideo.volume = (1-posDraw);
-      //rvideo.muted = false;
-      //rvideo.play();
-   }
-
-   vbright = 100*(1-posDraw)+20;
-   rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
-   
-   stopHints();
-   //var rect = adsTxt.getBoundingClientRect();
-   //console.log(rect.top, rect.right, rect.bottom, rect.left);
-
-   //requestAnimationFrame(() => updateImage(frameIndex + 1))
+   preloadImages();
+   loadHints();
+    
 });
-   
-const alert_elem = document.querySelector( '.alert' );
-alert_elem.addEventListener( 'click', ({ target }) => {
-   if( target.matches('button') ) {
-      const allowed = target.value === "1";
-      if( allowed ) {
-         var rvideo = document.getElementById("background-video");
-         rvideo.play()
-          .then((e)=>{
-              //vid.pause();
-              //vid.currentTime = 0;
-              rvideo.muted = false;
-              alert_elem.remove();
-         });
-         
-      } else {
-         alert_elem.remove();
-      }
-   }
-});
-
-//cxt.fillStyle = "green";
-//cxt.fillRect(20, 10, 150, 100);
-//var renderImg = false;
-
-//var rvideo = document.getElementById("background-video");
-//rvideo.volume = 0.0;
-
-//const vid = document.createElement("video");
-//vid.setAttribute("src", "front-entry-web.mp4");
-
-//const vid = new Video( 'https://portal.okaneda.com/01a5b2b/front-entry-web.mp4' );
-//vid.muted = true;
-
-
-/*document.getElementById( 'btn' ).addEventListener( 'click', (e) => {
-  if( audio.muted ) {
-    console.log( 'silent notification' );
-  }
-  else {
-    audio.play();
-  }
-} );*/
-
-/*function resetVideo() {
-  vid.pause();
-  vid.currentTime = 0;
-  vid.muted = false;
-}*/
-
-preloadImages();
-loadHints();
 
 </script>
 </body>
