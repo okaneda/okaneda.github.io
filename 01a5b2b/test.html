@@ -267,9 +267,9 @@ const stopHints = () => {
    if (!isCanvasEmpty(canvas)) {
       if (intervalID!=null){
          clearInterval(intervalID);
-         intervalID = null;
-         clearContext();
       }
+         //intervalID = null;
+      clearContext();      
    }
 };
 
