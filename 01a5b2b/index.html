@@ -41,7 +41,8 @@ body {
 }
 
 canvas {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   border: 0;
   position: fixed;
   left: 0;
@@ -233,15 +234,14 @@ var allImages = new Array(
 );
 
 const html = document.documentElement;
-
+let intervalID;
 //canvas.style.height = html.innerHeight;
 //canvas.style.top = html.innerHeight + 1;
 
 const canvas = document.getElementById("production_canvas");
-canvas.width = this.naturalWidth;
-canvas.height = this.naturalHeight;
-const cxt = canvas.getContext("2d");
-
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+   
 //const frameCount = 4;
 const currentFrame = index => (
   `${allImages[index]}`
@@ -253,22 +253,69 @@ const preloadImages = () => {
     img.src = currentFrame(i);
   }
 };
-  
-const loadHints = () => {
-   var adsTxt = document.getElementById("adsTxt");
-   var rect = adsTxt.getBoundingClientRect();
-   cxt.clearRect(0, 0, canvas.width, canvas.height);
-   var posDraw = rect.bottom/window.innerHeight;
 
-   if (posDraw<0) {
-      posDraw = 0;
+const stopHints = () => {
+   if (intervalID!=null){
+      clearInterval(intervalID);
+      intervalID = null;
+      clearContext();
    }
+};
 
-   //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);
+const clearContext = () => {
+   const cxt = canvas.getContext("2d");
+   cxt.clearRect(0, 0, canvas.width, canvas.height);         
+};
+
+const loadHints = () => {
+   
    const img = new Image()
    img.src = `${currentFrame(1)}`;
-   img.onload=function(){
-      cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+   img.onload = () => {
+
+      //var adsTxt = document.getElementById("adsTxt");
+      //var rect = adsTxt.getBoundingClientRect();
+      
+      const cxt = canvas.getContext("2d");
+      
+      
+   
+      /*var posDraw = rect.bottom/window.innerHeight;
+
+      if (posDraw<0) {
+         posDraw = 0;
+      }*/   
+      
+      //console.log(`rect.bottom: ${rect.bottom} window.pageYOffset: ${window.pageYOffset} window.innerHeight: ${window.innerHeight} posDraw: ${posDraw}`);        
+      //cxt.drawImage(img, 0,img.height*posDraw,img.width, img.height);
+      var iw = img.naturalWidth;
+      var ih = img.naturalHeight;
+      
+      var nw = canvas.width*0.1;
+      var nh = ih*nw/iw;
+      var h_step = 10;
+      var seqNum = 0;
+      intervalID = setInterval(()=>{
+         
+         cxt.clearRect(0, 0, canvas.width, canvas.height);
+         cxt.drawImage(img,
+                       canvas.width/2-(nw/2),
+                       canvas.height/2-(nh/2)-seqNum*h_step,
+                       nw, nh);
+         
+
+         cxt.font = `${nw*0.6|0}px Comic Sans MS`;
+         cxt.fillStyle = "white";
+         cxt.filter = "filter: opacity(50%)";
+         cxt.textAlign = "center";
+         cxt.fillText("Slide", (canvas.width/2-(nw/2)+nw*0.3), (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
+         
+         seqNum>2?seqNum=0:seqNum++;
+         
+      }, 200);
+      
+      //const ctx = document.getElementById("canvas").getContext("2d");
+  
    }
 };   
 
@@ -416,7 +463,7 @@ window.addEventListener('scroll', () => {
    vbright = 100*(1-posDraw)+20;
    rvideo.style.filter = `brightness(${(vbright>100?100:vbright).toString()}%)`;
    
-
+   stopHints();
    //var rect = adsTxt.getBoundingClientRect();
    //console.log(rect.top, rect.right, rect.bottom, rect.left);
 
