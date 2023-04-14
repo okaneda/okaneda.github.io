@@ -265,7 +265,7 @@ const loadHints = () => {
       
       const cxt = canvas.getContext("2d");
       
-      cxt.clearRect(0, 0, canvas.width, canvas.height);
+      
    
       /*var posDraw = rect.bottom/window.innerHeight;
 
@@ -280,11 +280,20 @@ const loadHints = () => {
       
       var nw = canvas.width*0.1;
       var nh = ih*nw/iw;
+      var h_step = canvas.height*0.1;
+      var seqNum = 0;
+      const intervalID = setInterval(()=>{
+         
+         cxt.clearRect(0, 0, canvas.width, canvas.height);
+         cxt.drawImage(img,
+                       canvas.width/2-(nw/2),
+                       canvas.height/2-(nh/2)-seqNum*h_step,
+                       nw, nh);
       
-      cxt.drawImage(img,
-                    canvas.width/2-(nw/2),
-                    canvas.height/2-(nh/2),
-                    nw, nh);
+         seqNum>20?seqNum=0:seqNum++;
+         
+      }, 500);
+      
    }
 };   
 
