@@ -306,8 +306,8 @@ const loadHints = () => {
          var seqNum = 0;
          
          stopHints();         
-         intervalID = setInterval(()=>{
-
+         let op = ()=>{
+ 
             cxt.clearRect(0, 0, canvas.width, canvas.height);
             cxt.drawImage(img,
                           canvas.width/2-(nw/2),
@@ -322,9 +322,16 @@ const loadHints = () => {
                          (canvas.width/2-(nw/2)+nw*0.3), 
                          (canvas.height/2-(nh/2)+(nh*1.65|0))-seqNum*h_step);
 
-            seqNum>4?seqNum=0:seqNum++;
-
-         }, 20);
+            if (seqNum>4) {
+               seqNum = 0;
+               intervalID = setTimer(op, 500);
+            } else {
+               intervalID = setTimer(op, 50);
+               seqNum++;
+            }      
+         }
+         
+         
 
          //const ctx = document.getElementById("canvas").getContext("2d");
 
