@@ -324,9 +324,9 @@ const loadHints = () => {
 
             if (seqNum>4) {
                seqNum = 0;
-               intervalID = setTimer(op, 500);
+               intervalID = setTimeout(op, 500);
             } else {
-               intervalID = setTimer(op, 50);
+               intervalID = setTimeout(op, 50);
                seqNum++;
             }      
          }
